@@ -4,8 +4,8 @@
   "description": "TypeScript SMS API with PostgreSQL and Redis",
   "main": "dist/src/server.js",
   "scripts": {
-    "migrate": "knex migrate:latest --knexfile knexfile.js",
-    "migrate:rollback": "knex migrate:rollback --knexfile knexfile.js",
+    "migrate": "NODE_ENV=production knex migrate:latest --knexfile knexfile.js",
+    "migrate:rollback": "NODE_ENV=production knex migrate:rollback --knexfile knexfile.js",
     "migrate:prod": "NODE_ENV=production knex migrate:latest --knexfile knexfile.js",
     "seed": "knex seed:run --knexfile knexfile.js",
     "build": "tsc",
