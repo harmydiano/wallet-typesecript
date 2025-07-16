@@ -6,10 +6,12 @@
   "scripts": {
     "migrate": "knex migrate:latest --knexfile knexfile.js",
     "migrate:rollback": "knex migrate:rollback --knexfile knexfile.js",
+    "migrate:prod": "NODE_ENV=production knex migrate:latest --knexfile knexfile.js",
     "seed": "knex seed:run --knexfile knexfile.js",
     "build": "tsc",
-    "start": "node dist/src/server.js",
+    "start": "npm run migrate && node dist/src/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "postinstall": "npm run migrate",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "test": "jest",
