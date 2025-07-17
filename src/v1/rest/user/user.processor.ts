@@ -32,7 +32,7 @@ class UserProcessor extends AppProcessor {
       return new AppError('User with this BVN already exists', BAD_REQUEST);
     }
     // Check if user is in Lendsqr Adjutor Karma blacklist
-    const isBlacklisted = await this.checkBlacklist(object.bvn);
+    const isBlacklisted = await this.checkBlacklist(object.bvn, object.email);
     if (isBlacklisted) {
       return new AppError(lang.users.blacklisted, BAD_REQUEST);
     }
@@ -62,9 +62,10 @@ class UserProcessor extends AppProcessor {
   /**
    * Check Lendsqr Adjutor Karma blacklist
    * @param {string} bvn The BVN to check
+   * @param {string} email The email to check
    * @return {boolean} returns true if user is blacklisted
    */
-  static async checkBlacklist(bvn: string): Promise<boolean> {
+  static async checkBlacklist(bvn: string, email: string): Promise<boolean> {
     if (process.env.NODE_ENV === 'test') {
       return false; // Always allow in test mode
     }
@@ -88,6 +89,17 @@ class UserProcessor extends AppProcessor {
         data.karma_identity_type.identity_type === 'BVN' &&
         data.karma_identity &&
         data.karma_identity === bvn &&
+        data.default_date &&
+        data.reporting_entity
+      ) {
+        return true;
+      }
+      else if (
+        data &&
+        data.karma_identity_type &&
+        data.karma_identity_type.identity_type === 'Email' &&
+        data.karma_identity &&
+        data.karma_identity === email &&
         data.default_date &&
         data.reporting_entity
       ) {
