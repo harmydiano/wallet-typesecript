@@ -1,5 +1,7 @@
 # TypeScript SMS API
 
+![Entity Relationship Diagram](./erd.png)
+
 ## Overview
 This project is a TypeScript-based RESTful API for user and wallet management, built with Express, Knex.js, and PostgreSQL. It demonstrates best practices in backend architecture, code quality, and transactional integrity for financial operations.
 
